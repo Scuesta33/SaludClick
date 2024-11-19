@@ -1,8 +1,6 @@
 package com.SaludClick.SaludClick.securityConfig;
 
 
-package com.SaludClick.SaludClick.security;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,19 +24,23 @@ public class SecurityConfig {
     }
 
     // Configuración del SecurityFilterChain
-    @SuppressWarnings("removal")
+    
+	
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()  // Deshabilitamos CSRF
-            .authorizeHttpRequests()  // Usamos el nuevo método para configurar la autorización de las solicitudes
-            .requestMatchers(HttpMethod.POST, "/usuarios/registrar").permitAll() // Permite registro sin autenticación
-            .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll() // Permite login sin autenticación
-            .anyRequest().authenticated() // Los demás endpoints requieren autenticación
-            .and()
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Añadimos el filtro JWT
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http.csrf(csrf -> csrf.disable()) // Deshabilitamos CSRF con el nuevo formato
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers(HttpMethod.POST, "/usuarios/registrar").permitAll() // Permite registro sin autenticación
+	            .requestMatchers(HttpMethod.POST, "/usuarios/login").permitAll() // Permite login sin autenticación
+	            .requestMatchers("/medico/**").hasRole("MEDICO")  // Médicos solo
+	            .requestMatchers("/paciente/**").hasRole("PACIENTE")  // Pacientes solo
+	            .anyRequest().authenticated() // Los demás endpoints requieren autenticación
+	        )
+	        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Añadimos el filtro JWT
 
-        return http.build();  // Usamos `http.build()` en lugar de `http.and()`
-    }
+	    return http.build(); // Usamos `http.build()` para construir la configuración
+	}
+
 
     // Configuración del PasswordEncoder
     @Bean

@@ -32,7 +32,7 @@ public class Notificacion {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaEnvio;
 
-    @Column(nullable = false) // Ensures the state is mandatory
+    @Column(nullable = false) 
     private String estado;
 
     // Default constructor
