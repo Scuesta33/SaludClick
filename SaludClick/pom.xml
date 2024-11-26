@@ -30,6 +30,7 @@
 		<java.version>23</java.version>
 	</properties>
 	<dependencies>
+	    
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -69,23 +70,31 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+ <dependency>
+    <groupId>com.auth0</groupId>
+    <artifactId>java-jwt</artifactId>
+    <version>4.4.0</version>
+</dependency>
+
 	</dependencies>
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <mainClass>com.SaludClick.SaludClick.SaludClickApplication</mainClass>
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
 
 </project>
